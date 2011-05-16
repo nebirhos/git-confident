@@ -20,6 +20,7 @@ module Git
       @path      = options[ :path ].clone
       @files     = options[ :files ]
       @no_commit = options[ :no_commit ] ? true : false
+      @restore_path = options[ :restore_path ]
 
       raise "Git repository not found at '#{ @path }'" if ! File.directory?( "#{ @path }/.git" )
 
@@ -74,7 +75,11 @@ module Git
 
     def restore
       IO.popen( "rsync --no-perms --executability --keep-dirlinks --delete --files-from=- #{ @path }/ /", "w+" ) do | pipe |
-        file_list.each { | pathname | pipe.puts pathname }
+        if @restore_path != '/'
+          pipe.puts @restore_path
+        else
+          file_list.each { | pathname | pipe.puts pathname }
+        end
       end
     end
 

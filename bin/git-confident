@@ -54,6 +54,11 @@ end
     options[ :path ] = File.expand_path( path )
   end
 
+  opts.on("-r", "--restore PATH", "Restore selected path from the repository") do | restore_path |
+    options[ :action ] = :restore
+    options[ :restore_path ] = restore_path
+  end
+
   opts.separator ""
   opts.separator "FILES:"
   opts.separator "Files are given with their repository path."
