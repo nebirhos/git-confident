@@ -84,7 +84,7 @@ module Git
     end
 
     def local_backup
-      IO.popen( "rsync -a --recursive --copy-dirlinks --delete --files-from=- / #{ @path }/", "w+" ) do | pipe |
+      IO.popen( "rsync -a --recursive --copy-dirlinks --delete --ignore-errors --files-from=- / #{ @path }/", "w+" ) do | pipe |
         file_list.each { | pathname | pipe.puts pathname }
       end
     end
